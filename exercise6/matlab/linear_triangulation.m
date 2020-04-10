@@ -14,5 +14,12 @@ function X = linear_triangulation(uv1, uv2, P1, P2)
     % See HZ Ch. 12.2: Linear triangulation methods (p312)
 
     % todo: Compute X
-    X = [0 0 0]';
+    A = zeros(4);
+    A(1,:) = uv1(1)*P1(3,:) - P1(1,:);
+    A(2,:) = uv1(2)*P1(3,:) - P1(2,:);
+    A(3,:) = uv2(1)*P2(3,:) - P2(1,:);
+    A(4,:) = uv2(2)*P2(3,:) - P2(2,:);
+    [~,~,V] = svd(A);
+    X_tilde = V(:,4);
+    X = X_tilde(1:3)/X_tilde(4);
 end

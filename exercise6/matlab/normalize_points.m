@@ -19,6 +19,14 @@ function [pts_n, T] = normalize_points(pts)
     %                 |1 |       |1|
 
     % todo: Compute pts_n and T
-    pts_n = pts;
-    T = eye(3);
+    
+    
+    % From Lecture 7 slide 47
+    center = mean(pts);
+    dist = mean(vecnorm(pts - center, 2, 2));
+    scale = sqrt(2)/dist;
+    pts_n = (pts - center)*scale;
+    T = [scale 0     -center(1)*scale ; 
+         0     scale -center(2)*scale ; 
+         0     0          1      ];
 end

@@ -13,7 +13,7 @@ F = eight_point(uv1, uv2);
 % rng(0); % Uncomment if you don't want randomized points
 
 % Choose k random points to visualize
-k = 8;
+k = 30;
 sample = randperm(size(uv1, 1), k);
 uv1 = uv1(sample,:);
 uv2 = uv2(sample,:);

@@ -8,14 +8,16 @@ function r = residuals(K, platform_to_camera, p_model, uv, weights, yaw, pitch, 
     arm_to_camera    = hinge_to_camera*arm_to_hinge;
     rotors_to_camera = arm_to_camera*rotors_to_arm;
 
-    %
-    % Task 1a: Implement the rest of this function
-    %
-
-    % Tip: If A is an Nx2 matrix, vecnorm(A, 2, 2)
-    % computes the Euclidean length of each row and
-    % returns an Nx1 matrix.
-
-    m = size(p_model,1); % Placeholder
-    r = inf*ones(m, 1);  % Placeholder
+    
+    m = size(p_model,1); %m = 7
+    m = cast(m,'uint8');
+    p_cam = zeros([4, m]);
+    p_cam(:,1:3) = arm_to_camera*p_model(1:3,:)';
+    p_cam(:,4:7) = rotors_to_camera*p_model(4:7,:)';
+    
+    uv2 = K*p_cam(1:3,:);
+    uv2 = uv2 ./ uv2(3,:);
+    uv2 = uv2(1:2,:)';
+     
+    r = weights .* vecnorm(uv - uv2, 2, 2); 
 end

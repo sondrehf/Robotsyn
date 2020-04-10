@@ -6,8 +6,8 @@
 %
 clear;
 filename       = '../data/image1_und.jpg';
-edge_threshold = 0; % todo: choose an appropriate value
-blur_sigma     = 0; % todo: choose an appropriate value
+edge_threshold = 0.015; % todo: choose an appropriate value
+blur_sigma     = 2; % todo: choose an appropriate value
 
 I_rgb       = imread(filename);
 I_rgb       = im2double(I_rgb);

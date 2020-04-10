@@ -9,6 +9,6 @@ function [P1,P2] = camera_matrices(K1, K2, R, t)
     %     P1,P2: The projection matrices with shape 3x4.
 
     % todo: Compute the correct matrices
-    P1 = zeros([3,4]);
-    P2 = zeros([3,4]);
+    P1 = K1*[1 0 0 0; 0 1 0 0; 0 0 1 0];
+    P2 = K2*[R t];
 end

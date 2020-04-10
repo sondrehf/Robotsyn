@@ -16,8 +16,8 @@ method = @gauss_newton;
 last_image = 86;
 
 % Task 2
-% method = @levenberg_marquardt;
-% last_image = 360;
+ %method = @levenberg_marquardt;
+ %last_image = 360;
 
 trajectory = zeros([last_image + 1, 3]);
 for image_number=0:last_image
@@ -28,7 +28,7 @@ for image_number=0:last_image
     if image_number == 0
         r = residuals(K, platform_to_camera, p_model, uv, weights, yaw, pitch, roll);
         disp('Residuals on video0000 are:')
-        r
+        r;
     end
     [yaw, pitch, roll] = gauss_newton(K, platform_to_camera, p_model, uv, weights, yaw, pitch, roll);
     trajectory(image_number + 1, :) = [yaw, pitch, roll];

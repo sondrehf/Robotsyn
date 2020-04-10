@@ -1,8 +1,8 @@
 clear;
-edge_threshold = 0; % todo: choose an appropriate value
-blur_sigma     = 0; % todo: choose an appropriate value
+edge_threshold = 0.02; % todo: choose an appropriate value
+blur_sigma     = 1; % todo: choose an appropriate value
 line_threshold = 10; % todo: choose an appropriate value
-bins           = 100; % todo: choose an appropriate value
+bins           = 500; % todo: choose an appropriate value
 filename       = '../data/image1_und.jpg';
 
 I_rgb       = imread(filename);
@@ -15,29 +15,26 @@ I_blur      = blur(I_gray, blur_sigma);
 %
 % Task 2a: Compute accumulator array H
 %
-rho_max   = 0; % Placeholder
-rho_min   = 0; % Placeholder
-theta_min = 0; % Placeholder
-theta_max = 0; % Placeholder
-H = zeros(bins,bins); % Placeholder
+rho_max   = norm(size(I_rgb)); % Placeholder
+rho_min   = -rho_max; % Placeholder
+theta_min = -pi; % Placeholder
+theta_max = pi; % Placeholder
 
-% Tip: Use histcounts2 for task 2a:
-% [H, ~, ~] = histcounts2(theta, rho, bins, ...
-%     'XBinLimits', [theta_min, theta_max], ...
-%     'YBinLimits', [rho_min, rho_max]);
-% H = H'; % Make rows be rho and columns be theta
 
-%
-% Task 2b: Find local maxima
-%
+rho = u.*cos(theta) + v.*sin(theta); 
+[H, ~, ~] = histcounts2(theta, rho, bins, ...
+    'XBinLimits', [theta_min, theta_max], ...
+    'YBinLimits', [rho_min, rho_max]);
+H = H'; % Make rows be rho and columns be theta
+
 window_size = 11;
 [peak_rows,peak_cols] = extract_peaks(H, window_size, line_threshold);
 
 %
 % Task 2c: Convert peak (row, column) pairs into (theta, rho) pairs.
 %
-peak_theta = [0 0.2 0.5 0.7]'; % Placeholder to demonstrate use of draw_line
-peak_rho   = [10 100 300 500]'; % Placeholder to demonstrate use of draw_line
+peak_rho = rho_min + (rho_max - rho_min)*(peak_rows-0.5)/bins;
+peak_theta = theta_min + (theta_max - theta_min)*(peak_cols-0.5)/bins;
 
 subplot(211);
 imagesc(H, 'XData', [theta_min theta_max], 'YData', [rho_min rho_max]);

@@ -21,4 +21,32 @@ function uv2 = epipolar_match(I1, I2, F, uv1)
 
     % todo: Compute uv2
     uv2 = zeros(size(uv1));
+    
+    w = 10; % Cloud that is checked will be +-10 pixels up/down
+    for i=1:size(uv1,1)
+        u1 = round(uv1(i,1));
+        v1 = round(uv1(i,2));
+        if u1 <= w || v1 <= w || u1 >= size(I1,2)-w || v1 >= size(I1,1)-w %Checking if outside (most likely not)
+            continue
+        end
+        l = F*[u1 v1 1]';
+        W1 = I1(v1-w:v1+w, u1-w:u1+w); %Find window in Im1 that we can check
+        best_err = inf;
+        best_u2 = w;
+        for u2=w+1:size(I2,2)-w
+            v2 = round(-(l(3) + u2*l(1))/l(2));
+            if v2 <= w || v2 >= size(I2,1)-w % if outside
+                continue
+            end
+            W2 = I2(v2-w:v2+w, u2-w:u2+w);
+            err = sum(abs(W1 - W2), 'all');
+            if err < best_err
+                best_err = err;
+                best_u2 = u2;
+            end
+        end
+
+        uv2(i,1) = best_u2;
+        uv2(i,2) = -(l(3) + best_u2*l(1))/l(2);
+    end
 end

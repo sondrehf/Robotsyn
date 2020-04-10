@@ -12,12 +12,12 @@ pitch = 28.9*pi/180;
 roll  = -0.6*pi/180;
 
 % Task 1
-method = @gauss_newton;
-last_image = 86;
+%method = @gauss_newton;
+%last_image = 86;
 
 % Task 2
-% method = @levenberg_marquardt;
-% last_image = 360;
+method = @levenberg_marquardt;
+ last_image = 360;
 
 trajectory = zeros([last_image + 1, 3]);
 for image_number=0:last_image

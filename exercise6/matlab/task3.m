@@ -15,13 +15,15 @@ Rts = motion_from_essential(E);
 [P1,P2] = camera_matrices(K1, K2, R, t);
 
 % Uncomment for task 4b
-% uv1 = load('../data/goodPoints.txt');
-% uv2 = epipolar_match(rgb2gray(I1), rgb2gray(I2), F, uv1);
+uv1 = load('../data/goodPoints.txt');
+uv2 = epipolar_match(rgb2gray(I1), rgb2gray(I2), F, uv1);
 
 n = size(uv1,1);
 X = zeros([n,3]);
 for i=1:size(uv1,1)
     X(i,:) = linear_triangulation(uv1(i,:), uv2(i,:), P1, P2);
 end
+
+
 
 show_point_cloud(X, [-0.6, +0.6], [-0.6, +0.6], [3, 4.2]);
