@@ -10,6 +10,6 @@ K2 = load('../data/K2.txt');
 
 F = eight_point(uv1, uv2);
 
-% rng(0); % Uncomment if you don't want randomized points (use fixed seed)
+ rng(0); % Uncomment if you don't want randomized points (use fixed seed)
 
 show_point_matches(I1, I2, uv1, uv2, F);
